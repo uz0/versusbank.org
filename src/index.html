@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+  <!-- PWA Meta Tags -->
+  <meta name="application-name" content="VersusBank">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="VersusBank">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="msapplication-TileColor" content="#1a1a2e">
+  <meta name="theme-color" content="#1a1a2e">
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="16-bit retro web game with financial gameplay mechanics">
+  <meta name="keywords" content="game, retro, 16-bit, financial, web-game, pixel-art">
+  <meta name="author" content="VersusBank">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="VersusBank - Retro Financial Game">
+  <meta property="og:description" content="Experience 16-bit retro gaming with modern financial mechanics">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://versusbank.org">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Apple Touch Icon -->
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16.png">
+
+  <title>VersusBank - 16-bit Financial Game</title>
+
+  <style>
+    /* Reset and base styles */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Courier New', monospace;
+      background: #0f0f1e;
+      color: #00ff41;
+      overflow-x: hidden;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Game Canvas Container */
+    #gameContainer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 200vh; /* 2 viewport heights */
+      z-index: 10;
+      background: linear-gradient(180deg, #0f0f1e 0%, #1a1a2e 100%);
+    }
+
+    #gameCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      image-rendering: pixelated;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: crisp-edges;
+      cursor: crosshair;
+    }
+
+    /* Content Container */
+    #content {
+      position: relative;
+      margin-top: 200vh;
+      background: #1a1a2e;
+      padding: 2rem;
+      min-height: 100vh;
+      z-index: 5;
+    }
+
+    /* Loading Screen */
+    #loadingScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0f0f1e;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      font-family: 'Courier New', monospace;
+    }
+
+    .loading-text {
+      color: #00ff41;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 10px #00ff41;
+    }
+
+    .loading-bar {
+      width: 200px;
+      height: 20px;
+      border: 2px solid #00ff41;
+      background: #0f0f1e;
+      position: relative;
+    }
+
+    .loading-progress {
+      height: 100%;
+      background: #00ff41;
+      width: 0%;
+      transition: width 0.3s ease;
+      box-shadow: 0 0 10px #00ff41;
+    }
+
+    /* Install Prompt */
+    #installPrompt {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1a1a2e;
+      border: 2px solid #00ff41;
+      color: #00ff41;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      z-index: 20;
+      display: none;
+      box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    #installPrompt:hover {
+      background: #00ff41;
+      color: #0f0f1e;
+      box-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+    }
+
+    /* Retro styling for content */
+    .pixel-border {
+      border: 4px solid #00ff41;
+      box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .retro-title {
+      color: #00ff41;
+      font-size: 2rem;
+      text-shadow: 0 0 10px #00ff41;
+      margin-bottom: 1rem;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #00ff41; }
+      to { text-shadow: 0 0 20px #00ff41, 0 0 30px #00ff41; }
+    }
+
+    /* No-JS fallback */
+    .no-js {
+      display: block;
+      text-align: center;
+      padding: 2rem;
+      color: #ff4141;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      #content {
+        padding: 1rem;
+      }
+
+      .retro-title {
+        font-size: 1.5rem;
+      }
+
+      #installPrompt {
+        width: 90%;
+        font-size: 0.8rem;
+      }
+    }
+
+    /* High DPI displays */
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+      #gameCanvas {
+        image-rendering: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loadingScreen">
+    <div class="loading-text">LOADING VERSUSBANK...</div>
+    <div class="loading-bar">
+      <div class="loading-progress" id="loadingProgress"></div>
+    </div>
+  </div>
+
+  <!-- Game Container -->
+  <div id="gameContainer">
+    <canvas id="gameCanvas">
+      <div class="no-js">
+        <h2>JavaScript Required</h2>
+        <p>This game requires JavaScript to run. Please enable JavaScript in your browser settings.</p>
+      </div>
+    </canvas>
+  </div>
+
+  <!-- Content Section -->
+  <div id="content">
+    <!-- README content will be injected here -->
+    <div class="pixel-border">
+      <h1 class="retro-title">VersusBank</h1>
+      <p>Loading game content...</p>
+    </div>
+  </div>
+
+  <!-- PWA Install Prompt -->
+  <button id="installPrompt">Install VersusBank</button>
+
+  <!-- Fallback content for no-JS users -->
+  <noscript>
+    <div class="no-js">
+      <h2>JavaScript Required</h2>
+      <p>VersusBank requires JavaScript to run. Please enable JavaScript in your browser settings to play the game.</p>
+    </div>
+  </noscript>
+
+  <!-- Main Game Script -->
+  <script type="module" src="js/main.js"></script>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./serviceworker.js')
+          .then((registration) => {
+            console.log('SW registered: ', registration);
+          })
+          .catch((registrationError) => {
+            console.log('SW registration failed: ', registrationError);
+          });
+      });
+    }
+  </script>
+</body>
+</html>

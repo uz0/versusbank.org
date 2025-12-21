@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "quint-code": {
+      "command": "quint-code",
+      "args": [
+        "serve"
+      ],
+      "cwd": "./",
+      "env": {
+        "QUINT_PROJECT_ROOT": "${workspaceFolder:-./}"
+      }
+    }
+  }
+}
