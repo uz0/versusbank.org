@@ -32,8 +32,11 @@ export enum TransitionType {
  */
 export class SceneManager {
   private scenes: Map<string, Scene> = new Map();
+  private initializedScenes: Set<string> = new Set();
   private currentScene: Scene | null = null;
   private previousScene: Scene | null = null;
+  private transitionFromScene: Scene | null = null;
+  private transitionToScene: Scene | null = null;
   private transitionActive: boolean = false;
   private transitionProgress: number = 0;
   private transitionType: TransitionType = TransitionType.NONE;
@@ -91,9 +94,14 @@ export class SceneManager {
     this.transitionProgress = 0;
 
     // Initialize new scene if needed
-    if (!this.scenes.has(sceneName)) {
+    if (!this.initializedScenes.has(sceneName)) {
       await newScene.init();
+      this.initializedScenes.add(sceneName);
     }
+
+    // Set transition scenes
+    this.transitionFromScene = this.currentScene;
+    this.transitionToScene = newScene;
 
     // Start transition
     await this.performTransition(this.currentScene, newScene, transitionType);
@@ -128,16 +136,22 @@ export class SceneManager {
    * Complete scene transition
    */
   private completeTransition(fromScene: Scene | null, toScene: Scene): void {
-    // Destroy previous scene
-    if (fromScene) {
-      fromScene.destroy();
-      this.previousScene = fromScene;
-    }
+    // Store reference before destroying
+    this.previousScene = fromScene;
 
     // Set new scene as current
     this.currentScene = toScene;
     this.transitionActive = false;
     this.transitionProgress = 0;
+
+    // Clear transition scenes
+    this.transitionFromScene = null;
+    this.transitionToScene = null;
+
+    // Destroy previous scene after transition is complete
+    if (fromScene) {
+      fromScene.destroy();
+    }
 
     console.log(`Scene switched to: ${toScene.name}`);
   }
@@ -161,9 +175,9 @@ export class SceneManager {
    * Render current scene
    */
   public render(renderer: any): void {
-    if (this.transitionActive && this.currentScene && this.previousScene) {
+    if (this.transitionActive && this.transitionFromScene && this.transitionToScene) {
       // Render transition effect
-      this.renderTransition(renderer, this.previousScene, this.currentScene);
+      this.renderTransition(renderer, this.transitionFromScene, this.transitionToScene);
     } else if (this.currentScene) {
       this.currentScene.render(renderer);
     }

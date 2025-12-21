@@ -277,7 +277,7 @@ export class Game {
   /**
    * Main game loop
    */
-  private gameLoop(currentTime: number): void {
+  private gameLoop = (currentTime: number): void => {
     if (!this.isRunning) return;
 
     // Calculate delta time
@@ -301,8 +301,8 @@ export class Game {
     this.updatePerformanceMetrics(deltaTime);
 
     // Continue the loop
-    requestAnimationFrame(this.gameLoop.bind(this));
-  }
+    requestAnimationFrame(this.gameLoop);
+  };
 
   /**
    * Update game logic

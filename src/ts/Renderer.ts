@@ -74,7 +74,7 @@ export class Renderer {
     if (typeof color === 'string') {
       this.ctx.fillStyle = color;
     } else {
-      this.ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, color.a ?? 1)`;
+      this.ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a ?? 1})`;
     }
     this.ctx.fillRect(0, 0, this.width, this.height);
   }
@@ -186,5 +186,33 @@ export class Renderer {
    */
   public getCamera(): { x: number; y: number; zoom: number } {
     return { x: this.cameraX, y: this.cameraY, zoom: this.cameraZoom };
+  }
+
+  /**
+   * Set global alpha for transparency
+   */
+  public setGlobalAlpha(alpha: number): void {
+    this.ctx.globalAlpha = alpha;
+  }
+
+  /**
+   * Push current transform state to stack
+   */
+  public pushTransform(): void {
+    this.ctx.save();
+  }
+
+  /**
+   * Pop transform state from stack
+   */
+  public popTransform(): void {
+    this.ctx.restore();
+  }
+
+  /**
+   * Translate context by x, y
+   */
+  public translate(x: number, y: number): void {
+    this.ctx.translate(x, y);
   }
 }
