@@ -35,7 +35,7 @@ const server = createServer((req, res) => {
   try {
     const resolvedDOCS_DIR = resolve(DOCS_DIR);
     const safeUrl = req.url === '/' ? 'index.html' : (req.url || '').startsWith('/') ? req.url.substring(1) : req.url;
-    let filePath = resolve(DOCS_DIR, '.' + safeUrl);
+    let filePath = resolve(DOCS_DIR, safeUrl);
 
     // Security: prevent directory traversal
     if (!filePath.startsWith(resolvedDOCS_DIR)) {

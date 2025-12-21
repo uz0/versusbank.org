@@ -66,6 +66,7 @@ export class SceneManager {
 
       scene.destroy();
       this.scenes.delete(name);
+      this.initializedScenes.delete(name);
       console.log(`Scene removed: ${name}`);
     }
   }
@@ -136,8 +137,13 @@ export class SceneManager {
    * Complete scene transition
    */
   private completeTransition(fromScene: Scene | null, toScene: Scene): void {
-    // Store reference before destroying
-    this.previousScene = fromScene;
+    // Destroy previous scene before storing new reference
+    if (fromScene) {
+      fromScene.destroy();
+    }
+
+    // Store reference (now null since we destroyed it)
+    this.previousScene = null;
 
     // Set new scene as current
     this.currentScene = toScene;
@@ -147,11 +153,6 @@ export class SceneManager {
     // Clear transition scenes
     this.transitionFromScene = null;
     this.transitionToScene = null;
-
-    // Destroy previous scene after transition is complete
-    if (fromScene) {
-      fromScene.destroy();
-    }
 
     console.log(`Scene switched to: ${toScene.name}`);
   }
@@ -353,8 +354,11 @@ export class SceneManager {
       scene.destroy();
     }
     this.scenes.clear();
+    this.initializedScenes.clear();
     this.currentScene = null;
     this.previousScene = null;
+    this.transitionFromScene = null;
+    this.transitionToScene = null;
     console.log('Scene manager destroyed');
   }
 
