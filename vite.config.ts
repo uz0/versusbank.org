@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import { resolve } from 'path'
 import { copyFileSync, existsSync, writeFileSync } from 'fs'
+import { markdownInject } from './src/vite-plugin-md-inject'
 
 export default defineConfig({
   root: 'src',
@@ -50,6 +51,13 @@ export default defineConfig({
     }
   },
   plugins: [
+    // Inject README.md content directly into index.html at build time
+    markdownInject({
+      markdownPath: 'README.md',
+      targetId: 'content',
+      contentClass: 'retro-content'
+    }),
+
     // Custom plugin to copy CNAME and robots.txt to docs
     {
       name: 'copy-cname-robots',

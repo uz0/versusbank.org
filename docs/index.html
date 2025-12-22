@@ -403,24 +403,160 @@
   </div>
 
   <!-- Content Section -->
-  <div id="content">
-    <!-- README content will be injected here -->
-    <div class="pixel-border">
-      <h1 class="retro-title">VersusBank</h1>
-      <p>Loading game content...</p>
-    </div>
+  <div id="content"><article class="retro-content"><h1>VersusBank - 16-bit Retro Web Game</h1>
+<p>A retro-style 16-bit web game built with vanilla TypeScript and Canvas API.</p>
+<h2>Features</h2>
+<ul>
+<li><strong>16-bit Retro Graphics</strong>: Classic pixel art style with modern web technology</li>
+<li><strong>Progressive Web App</strong>: Installable on mobile and desktop</li>
+<li><strong>Cross-Platform</strong>: Works on Windows, macOS, Linux, iOS, and Android</li>
+<li><strong>Performance Optimized</strong>: Smooth 60 FPS gameplay</li>
+<li><strong>Responsive Design</strong>: Adapts to different screen sizes</li>
+</ul>
+<h2>Quick Start</h2>
+<h3>Prerequisites</h3>
+<ul>
+<li>Node.js 18.0.0 or higher</li>
+<li>npm 9.0.0 or higher</li>
+</ul>
+<h3>Installation</h3>
+<pre><code class="language-bash"># Clone the repository
+git clone https://github.com/your-username/versusbank.org.git
+cd versusbank.org
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+</code></pre>
+<p>Open your browser and navigate to <code>http://localhost:3000</code></p>
+<h2>Available Scripts</h2>
+<ul>
+<li><code>npm run dev</code> - Start development server with hot reload</li>
+<li><code>npm run build</code> - Build production version</li>
+<li><code>npm run serve</code> - Start production server</li>
+<li><code>npm run test</code> - Run all tests</li>
+<li><code>npm run test:headed</code> - Run tests in headed mode</li>
+<li><code>npm run test:e2e</code> - Run end-to-end tests</li>
+<li><code>npm run test:performance</code> - Run performance tests</li>
+<li><code>npm run type-check</code> - Run TypeScript type checking</li>
+<li><code>npm run lint</code> - Run ESLint</li>
+<li><code>npm run lint:fix</code> - Fix linting issues</li>
+<li><code>npm run validate</code> - Run type-check, build, test, and lint</li>
+<li><code>npm run clean</code> - Clean build artifacts</li>
+</ul>
+<h2>Testing</h2>
+<p>The project includes comprehensive testing infrastructure:</p>
+<h3>End-to-End Tests</h3>
+<ul>
+<li>Basic rendering tests</li>
+<li>Cross-platform compatibility</li>
+<li>Screenshot consistency</li>
+<li>Console error detection</li>
+</ul>
+<h3>Performance Tests</h3>
+<ul>
+<li>Page load time</li>
+<li>Canvas rendering performance</li>
+<li>Memory usage monitoring</li>
+<li>Screenshot reliability</li>
+</ul>
+<h3>Running Tests</h3>
+<pre><code class="language-bash"># Run all tests
+npm test
+
+# Run tests in headed mode (useful for debugging)
+npm run test:headed
+
+# Run specific test suites
+npm run test:e2e
+npm run test:performance
+</code></pre>
+<h2>Cross-Platform Compatibility</h2>
+<p>The game is designed to work across all major platforms:</p>
+<ul>
+<li><strong>Desktop</strong>: Chrome, Firefox, Safari, Edge</li>
+<li><strong>Mobile</strong>: iOS Safari, Android Chrome</li>
+<li><strong>Operating Systems</strong>: Windows, macOS, Linux, iOS, Android</li>
+</ul>
+<h3>Screenshot Testing</h3>
+<p>Automated screenshot testing ensures visual consistency:</p>
+<ul>
+<li>Tests run on Windows, macOS, and Linux in CI</li>
+<li>Screenshots are compared for visual regressions</li>
+<li>Platform-specific differences are normalized</li>
+<li>Failing tests generate detailed difference reports</li>
+</ul>
+<h2>Development</h2>
+<h3>Project Structure</h3>
+<pre><code>src/
+├── ts/           # TypeScript source code
+├── js/           # Compiled JavaScript
+└── typings/      # Type definitions
+
+tests/
+├── e2e/          # End-to-end tests
+├── performance/  # Performance tests
+└── utils/        # Test utilities
+
+scripts/          # Build scripts
+public/           # Static assets
+docs/             # Built application
+</code></pre>
+<h3>Code Quality</h3>
+<ul>
+<li><strong>TypeScript</strong>: Strict type checking enabled</li>
+<li><strong>ESLint</strong>: Consistent code style</li>
+<li><strong>Playwright</strong>: Reliable automated testing</li>
+<li><strong>GitHub Actions</strong>: Continuous integration</li>
+</ul>
+<h2>Performance</h2>
+<ul>
+<li><strong>Bundle Size</strong>: Optimized for fast loading</li>
+<li><strong>Frame Rate</strong>: Maintains 60 FPS gameplay</li>
+<li><strong>Memory</strong>: Efficient memory usage</li>
+<li><strong>Network</strong>: Minimal asset loading</li>
+</ul>
+<h2>Deployment</h2>
+<p>The application builds to static files in the <code>docs/</code> directory, ready for deployment to any static hosting service:</p>
+<ul>
+<li>GitHub Pages</li>
+<li>Netlify</li>
+<li>Vercel</li>
+<li>AWS S3</li>
+<li>Firebase Hosting</li>
+</ul>
+<h3>Deploy to GitHub Pages</h3>
+<pre><code class="language-bash"># Build the application
+npm run build
+
+# Deploy to GitHub Pages (using gh-pages branch)
+git add docs/
+git commit -m "Update build"
+git subtree push --prefix docs origin gh-pages
+</code></pre>
+<h2>Contributing</h2>
+<ol>
+<li>Fork the repository</li>
+<li>Create a feature branch</li>
+<li>Make your changes</li>
+<li>Run the test suite: <code>npm run validate</code></li>
+<li>Submit a pull request</li>
+</ol>
+<h2>License</h2>
+<p>Unlicense - see the <a href="LICENSE">LICENSE</a> file for details.</p>
+<h2>Acknowledgments</h2>
+<ul>
+<li>Built with modern web standards</li>
+<li>Inspired by classic 16-bit games</li>
+<li>Powered by TypeScript and Canvas API</li>
+</ul>
+</article></div>
   </div>
 
   <!-- PWA Install Prompt -->
   <button id="installPrompt">Install VersusBank</button>
-
-  <!-- Fallback content for no-JS users -->
-  <noscript>
-    <div class="no-js">
-      <h2>JavaScript Required</h2>
-      <p>VersusBank requires JavaScript to run. Please enable JavaScript in your browser settings to play the game.</p>
-    </div>
-  </noscript>
 
   <!-- Main Game Script -->
 
