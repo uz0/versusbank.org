@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import { resolve } from 'path'
+import { copyFileSync, existsSync, writeFileSync } from 'fs'
 
 export default defineConfig({
   root: 'src',
@@ -49,6 +50,34 @@ export default defineConfig({
     }
   },
   plugins: [
+    // Custom plugin to copy CNAME and robots.txt to docs
+    {
+      name: 'copy-cname-robots',
+      closeBundle() {
+        const outDir = 'docs'
+
+        // Copy CNAME if it exists in root, otherwise create it
+        const cnameSource = resolve(__dirname, 'CNAME')
+        const cnameDest = resolve(__dirname, outDir, 'CNAME')
+
+        if (existsSync(cnameSource)) {
+          copyFileSync(cnameSource, cnameDest)
+        } else {
+          // Create CNAME with default content
+          writeFileSync(cnameDest, 'versusbank.org\n')
+        }
+
+        // Copy robots.txt from src
+        const robotsSource = resolve(__dirname, 'src', 'robots.txt')
+        const robotsDest = resolve(__dirname, outDir, 'robots.txt')
+
+        if (existsSync(robotsSource)) {
+          copyFileSync(robotsSource, robotsDest)
+        }
+
+        console.log('✓ Copied CNAME and robots.txt to docs/')
+      }
+    },
     // PWA Plugin with comprehensive offline support
     VitePWA({
       registerType: 'autoUpdate',
