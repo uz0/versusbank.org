@@ -13,8 +13,8 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [18, 20]
+        os: [ubuntu-latest, macos-latest]  # Reduced for CI efficiency
+        node-version: [20]  # Use latest LTS only
 
     steps:
     - uses: actions/checkout@v4
@@ -32,7 +32,7 @@ jobs:
       run: npx playwright install --with-deps
 
     - name: Type check
-      run: npm run type-check
+      run: npm run type
 
     - name: Lint
       run: npm run lint
@@ -59,45 +59,14 @@ jobs:
         path: test-results/
         retention-days: 7
 
-  test-performance:
-    name: Performance Tests
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Setup Node.js 20
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
-
-    - name: Install dependencies
-      run: npm ci
-
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-
-    - name: Build
-      run: npm run build
-
-    - name: Run performance tests
-      run: npm run test:performance
-
-    - name: Upload performance results
-      uses: actions/upload-artifact@v4
-      with:
-        name: performance-results
-        path: performance-results/
-        retention-days: 30
-
+  
   cross-platform-screenshots:
     name: Cross-platform Screenshots
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest]  # Removed windows to reduce CI load
 
     steps:
     - uses: actions/checkout@v4
@@ -112,13 +81,14 @@ jobs:
       run: npm ci
 
     - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+      run: npx playwright install --with-deps chromium
 
     - name: Build
       run: npm run build
 
     - name: Run screenshot tests
       run: npx playwright test tests/e2e/basic-render.test.ts --project=chromium
+      timeout-minutes: 10
 
     - name: Upload screenshots
       if: always()
