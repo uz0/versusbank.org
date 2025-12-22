@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://versusbank.org/sitemap.xml
+
+# Block common bot paths that don't need to be indexed
+Disallow: /js/
+Disallow: /assets/
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /node_modules/

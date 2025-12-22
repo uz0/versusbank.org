@@ -140,7 +140,9 @@ export class InstallManager {
    * Show install button
    */
   private showInstallButton(): void {
-    if (!this.installPrompt || this.isInstalled) return;
+    if (!this.installPrompt || this.isInstalled) {
+      return;
+    }
 
     // Only show on mobile devices or when not in standalone mode
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -279,7 +281,7 @@ export class InstallManager {
     isInstallable: boolean;
     isStandalone: boolean;
     deferredPrompt: boolean;
-  } {
+    } {
     return {
       isInstalled: this.isInstalled,
       isInstallable: this.isInstallable,

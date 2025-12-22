@@ -153,8 +153,8 @@ export class AssetManager {
   private async loadImage(path: string): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
       const img = new Image();
-      img.onload = () => resolve(img);
-      img.onerror = () => reject(new Error(`Failed to load image: ${path}`));
+      img.onload = (): void => resolve(img);
+      img.onerror = (): void => reject(new Error(`Failed to load image: ${path}`));
       img.src = path;
     });
   }
@@ -165,8 +165,8 @@ export class AssetManager {
   private async loadAudio(path: string): Promise<HTMLAudioElement> {
     return new Promise((resolve, reject) => {
       const audio = new Audio();
-      audio.oncanplaythrough = () => resolve(audio);
-      audio.onerror = () => reject(new Error(`Failed to load audio: ${path}`));
+      audio.oncanplaythrough = (): void => resolve(audio);
+      audio.onerror = (): void => reject(new Error(`Failed to load audio: ${path}`));
       audio.src = path;
       audio.load();
     });
@@ -194,10 +194,10 @@ export class AssetManager {
     const image = await this.loadImage(path);
 
     return {
-      image: image,
+      image,
       frameWidth: options?.frameWidth || 16,
       frameHeight: options?.frameHeight || 16,
-      path: path
+      path
     };
   }
 
@@ -293,7 +293,9 @@ export class AssetManager {
    * Check if all requested assets are loaded
    */
   public isFullyLoaded(): boolean {
-    if (this.totalAssets === 0) return true;
+    if (this.totalAssets === 0) {
+      return true;
+    }
     return (this.loadedAssets + this.failedAssets) >= this.totalAssets;
   }
 

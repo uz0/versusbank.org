@@ -160,7 +160,7 @@ const handleBeforeUnload = (event: BeforeUnloadEvent): void => {
     event.preventDefault();
     event.returnValue = 'You have unsaved game progress. Are you sure you want to leave?';
     // Note: Modern browsers require setting both message and returnValue
-    event.returnValue = event.returnValue;
+    // Note: event.returnValue is already set above
   }
 };
 

@@ -21,7 +21,7 @@ export class TestHelper {
 
     // Set consistent viewport
     await this.page.setViewportSize({ width, height });
-    await this.page.addStyleTag({ content: `* { animation-duration: 0s !important; }` });
+    await this.page.addStyleTag({ content: '* { animation-duration: 0s !important; }' });
 
     // Wait for any animations to settle
     await this.page.waitForTimeout(100);
@@ -63,7 +63,7 @@ export class TestHelper {
         let totalTime = 0;
         const startTime = performance.now();
 
-        function measureFrame() {
+        function measureFrame(): void {
           const frameStart = performance.now();
           frameCount++;
 
@@ -102,7 +102,7 @@ export class TestHelper {
     const target = context || this.page.context();
 
     // Store the handler so we can remove it later
-    const consoleHandler = (msg: any) => {
+    const consoleHandler = (msg: any): void => {
       const text = msg.text();
       switch (msg.type()) {
         case 'error':
@@ -143,14 +143,14 @@ export class TestHelper {
         let totalBytes = 0;
         let failedRequests = 0;
 
-        const observer = new PerformanceObserver((list) => {
+        const observer = new PerformanceObserver((list): void => {
           entries.push(...list.getEntries());
         });
 
         observer.observe({ entryTypes: ['resource'] });
 
         // Give some time for resources to be captured
-        setTimeout(() => {
+        setTimeout((): void => {
           observer.disconnect();
 
           // Process collected entries after disconnecting

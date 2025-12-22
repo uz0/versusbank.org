@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Create simple SVG icons that will work for PWA build
+ICON_DIR="$(dirname "$0")"
+
+# Create a simple SVG icon template
+cat > "$ICON_DIR/icon-192.svg" << 'EOF'
+<svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+  <rect width="192" height="192" fill="#0f0f1e"/>
+  <text x="96" y="70" text-anchor="middle" font-family="monospace" font-size="24" font-weight="bold" fill="#00ff41">
+    VERSUS
+  </text>
+  <text x="96" y="110" text-anchor="middle" font-family="monospace" font-size="24" font-weight="bold" fill="#00ff41">
+    BANK
+  </text>
+  <rect x="40" y="140" width="112" height="4" fill="#00ff41"/>
+  <rect x="70" y="150" width="52" height="3" fill="#00ff41"/>
+</svg>
+EOF
+
+# Copy to other sizes
+cp "$ICON_DIR/icon-192.svg" "$ICON_DIR/icon-16.svg"
+cp "$ICON_DIR/icon-192.svg" "$ICON_DIR/icon-32.svg"
+cp "$ICON_DIR/icon-192.svg" "$ICON_DIR/icon-144.svg"
+cp "$ICON_DIR/icon-192.svg" "$ICON_DIR/icon-512.svg"
+
+echo "✅ SVG icons created for PWA build"

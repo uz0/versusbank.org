@@ -51,7 +51,7 @@ export class InputHandler {
   private canvas: HTMLCanvasElement;
   private state: InputState;
   private virtualJoystick: VirtualJoystick;
-  private gestureCallbacks: { [key: string]: Function[] } = {};
+  private gestureCallbacks: { [key: string]: ((...args: any[]) => void)[] } = {};
 
   // Touch gesture thresholds
   private readonly TAP_TIMEOUT = 300;
@@ -142,7 +142,9 @@ export class InputHandler {
 
     for (let i = 0; i < event.changedTouches.length; i++) {
       const touch = event.changedTouches[i];
-      if (!touch) continue;
+      if (!touch) {
+        continue;
+      }
 
       const rect = this.canvas.getBoundingClientRect();
       const touchInfo: TouchInfo = {
@@ -171,7 +173,9 @@ export class InputHandler {
 
     for (let i = 0; i < event.changedTouches.length; i++) {
       const touch = event.changedTouches[i];
-      if (!touch) continue;
+      if (!touch) {
+        continue;
+      }
 
       const touchInfo = this.state.touches.find(t => t.id === touch.identifier);
 
@@ -193,7 +197,9 @@ export class InputHandler {
 
     for (let i = 0; i < event.changedTouches.length; i++) {
       const touch = event.changedTouches[i];
-      if (!touch) continue;
+      if (!touch) {
+        continue;
+      }
 
       const touchInfoIndex = this.state.touches.findIndex(t => t.id === touch.identifier);
 
@@ -220,16 +226,18 @@ export class InputHandler {
    */
   private activateVirtualJoystick(x: number, y: number, touchId: number): void {
     this.virtualJoystick = {
-      x: x,
-      y: y,
+      x,
+      y,
       radius: 50,
       active: true,
-      touchId: touchId
+      touchId
     };
   }
 
   private updateVirtualJoystick(x: number, y: number): void {
-    if (!this.virtualJoystick.active) return;
+    if (!this.virtualJoystick.active) {
+      return;
+    }
 
     const dx = x - this.virtualJoystick.x;
     const dy = y - this.virtualJoystick.y;
@@ -284,9 +292,9 @@ export class InputHandler {
 
     if (absX > absY) {
       return deltaX > 0 ? 'right' : 'left';
-    } else {
-      return deltaY > 0 ? 'down' : 'up';
     }
+    return deltaY > 0 ? 'down' : 'up';
+
   }
 
   private emitGesture(type: string, data: any): void {
@@ -341,14 +349,14 @@ export class InputHandler {
     };
   }
 
-  public onGesture(type: string, callback: Function): void {
+  public onGesture(type: string, callback: (...args: any[]) => void): void {
     if (!this.gestureCallbacks[type]) {
       this.gestureCallbacks[type] = [];
     }
     this.gestureCallbacks[type].push(callback);
   }
 
-  public removeGestureListener(type: string, callback: Function): void {
+  public removeGestureListener(type: string, callback: (...args: any[]) => void): void {
     if (this.gestureCallbacks[type]) {
       const index = this.gestureCallbacks[type].indexOf(callback);
       if (index !== -1) {

@@ -5,7 +5,7 @@
 /**
  * Scene interface
  */
-interface Scene {
+export interface Scene {
   name: string;
   init(): Promise<void>;
   update(deltaTime: number): void;
@@ -116,7 +116,7 @@ export class SceneManager {
 
     // Run transition update loop
     return new Promise<void>((resolve) => {
-      const updateTransition = () => {
+      const updateTransition = (): void => {
         const elapsed = Date.now() - startTime;
         this.transitionProgress = Math.min(elapsed / this.transitionDuration, 1);
 
@@ -268,9 +268,9 @@ export class SceneManager {
 
     // Render to scene sliding in
     offsetX = direction === 'left' ? -dims.width * (1 - progress) :
-               direction === 'right' ? dims.width * (1 - progress) : 0;
+      direction === 'right' ? dims.width * (1 - progress) : 0;
     offsetY = direction === 'up' ? -dims.height * (1 - progress) :
-               direction === 'down' ? dims.height * (1 - progress) : 0;
+      direction === 'down' ? dims.height * (1 - progress) : 0;
 
     renderer.pushTransform();
     renderer.translate(offsetX, offsetY);

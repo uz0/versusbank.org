@@ -1,0 +1,28 @@
+/* Renderer-specific styles */
+.renderer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.canvas {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  touch-action: none;
+}
+
+.debug-info {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(15, 15, 30, 0.8);
+  border: 1px solid var(--primary-green);
+  padding: 5px 10px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: var(--primary-green);
+  z-index: 5;
+}

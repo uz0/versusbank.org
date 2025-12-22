@@ -7,6 +7,7 @@ import { Renderer } from './Renderer';
 import { InputHandler } from './InputHandler';
 import { AssetManager, type AssetRequest } from './AssetManager';
 import { SceneManager } from './SceneManager';
+import { MenuScene } from './scenes/MenuScene';
 
 /**
  * Game states enumeration
@@ -219,7 +220,9 @@ export class Game {
    */
   private initializeScenes(): void {
     // Create and register scenes
-    // this.scenes.addScene('menu', new MenuScene());
+    if (this.scenes) {
+      this.scenes.addScene('menu', new MenuScene());
+    }
     // this.scenes.addScene('game', new GameScene());
     // this.scenes.addScene('gameover', new GameOverScene());
 
@@ -278,7 +281,9 @@ export class Game {
    * Main game loop
    */
   private gameLoop = (currentTime: number): void => {
-    if (!this.isRunning) return;
+    if (!this.isRunning) {
+      return;
+    }
 
     // Calculate delta time
     const deltaTime = Math.min(currentTime - this.lastTime, this.maxDeltaTime);
@@ -308,7 +313,9 @@ export class Game {
    * Update game logic
    */
   private update = (deltaTime: number): void => {
-    if (this.isPaused) return;
+    if (this.isPaused) {
+      return;
+    }
 
     const updateStart = performance.now();
 
@@ -330,7 +337,9 @@ export class Game {
    * Render game graphics
    */
   private render = (): void => {
-    if (!this.renderer) return;
+    if (!this.renderer) {
+      return;
+    }
 
     const renderStart = performance.now();
 
@@ -355,7 +364,9 @@ export class Game {
    * Render debug information
    */
   private renderDebugInfo = (): void => {
-    if (!this.renderer) return;
+    if (!this.renderer) {
+      return;
+    }
 
     const debugText = [
       `FPS: ${this.fps.toFixed(1)}`,
@@ -385,7 +396,7 @@ export class Game {
       this.fpsFrameCount = 0;
       this.fpsUpdateTime = currentTime;
     }
-  }
+  };
 
   /**
    * Update performance metrics
@@ -400,7 +411,7 @@ export class Game {
     }
 
     this.frameCount++;
-  }
+  };
 
   /**
    * Set game state
@@ -461,7 +472,7 @@ export class Game {
     frameCount: number;
     state: GameState;
     memoryUsageMB: number;
-  } {
+    } {
     return {
       ...this.performanceMetrics,
       fps: this.fps,

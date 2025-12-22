@@ -1,0 +1,12 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" fill="#0f0f1e"/>
+  <text x="256" y="180" text-anchor="middle" font-family="monospace" font-size="72" font-weight="bold" fill="#00ff41">
+    VERSUS
+  </text>
+  <text x="256" y="280" text-anchor="middle" font-family="monospace" font-size="72" font-weight="bold" fill="#00ff41">
+    BANK
+  </text>
+  <rect x="100" y="320" width="312" height="8" fill="#00ff41"/>
+  <rect x="180" y="340" width="152" height="8" fill="#00ff41"/>
+  <rect x="220" y="360" width="72" height="8" fill="#00ff41"/>
+</svg>

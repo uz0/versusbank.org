@@ -31,7 +31,7 @@ test.describe('Performance Tests', () => {
         let frameCount = 0;
         const startTime = performance.now();
 
-        function countFrames() {
+        function countFrames(): void {
           frameCount++;
           const elapsed = performance.now() - startTime;
 
