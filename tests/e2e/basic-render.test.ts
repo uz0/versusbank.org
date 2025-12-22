@@ -15,8 +15,11 @@ test.describe('Basic Rendering Tests', () => {
   test('canvas element renders', async ({ page }) => {
     await page.goto('/');
 
-    // Look for canvas element (common in web games)
-    const canvas = page.locator('canvas');
+    // Wait for page to be fully loaded
+    await page.waitForLoadState('networkidle');
+
+    // Look for the specific game canvas by ID and take the first one
+    const canvas = page.locator('#gameCanvas').first();
     await expect(canvas).toBeVisible();
 
     // Check that canvas has dimensions
@@ -76,7 +79,7 @@ test.describe('Cross-platform Rendering', () => {
       });
 
       // Verify canvas is present and sized correctly
-      const canvas = page.locator('canvas');
+      const canvas = page.locator('#gameCanvas').first();
       await expect(canvas).toBeVisible();
 
       const boundingBox = await canvas.boundingBox();
